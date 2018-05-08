@@ -176,14 +176,18 @@ Template['layout_sidebar'].events({
 
     @event click button.remove-tab
     */
-  'click button.remove-tab': function() {
-    if (LocalStore.get('selectedTab') === this._id) {
-      LocalStore.set('selectedTab', 'browser');
-    }
+    'click button.remove-tab': function () {
+        // do not allow to remove explorer tab
+        if (this._id === 'explorer') {
+            return;
+        }
+        if (LocalStore.get('selectedTab') === this._id) {
+            LocalStore.set('selectedTab', 'browser');
+        }
 
-    Tabs.remove(this._id);
-  },
-  /**
+        Tabs.remove(this._id);
+    },
+    /**
     Show connect account popup
 
     @event click .accounts button'

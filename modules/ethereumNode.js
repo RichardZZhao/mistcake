@@ -332,9 +332,33 @@ class EthereumNode extends EventEmitter {
       });
   }
 
-  /**
-   * @return {Promise}
-   */
+  initGenesis(binPath) {
+    const chainPath = Settings.getChainPath;
+    if (!fs.existsSync(chainPath)) {
+        /**
+         * file not exist
+         */
+
+            // read and write file to genesis.json
+        const genesisCont = fs.readFileSync('./genesis.json');
+        fs.writeFileSync(Settings.getGenesisPath, genesisCont);
+        const argsGen = [
+            'init', Settings.getGenesisPath,
+            '--datadir', Settings.getChainPath
+        ];
+
+        ethereumNodeLog.info('init genesis block');
+        const initProc = spawn(binPath, argsGen);
+        initProc.once('error', (error) => {
+            if (STATES.STARTING === this.state) {
+                this.state = STATES.ERROR;
+                ethereumNodeLog.info('Node init genesis startup error');
+            }
+        });
+    }
+}
+
+
   __startNode(nodeType, network, syncMode) {
     this.state = STATES.STARTING;
 
@@ -350,7 +374,7 @@ class EthereumNode extends EventEmitter {
     } else {
       throw new Error(`Node "${nodeType}" binPath is not available.`);
     }
-
+  
     ethereumNodeLog.info(`Start node using ${binPath}`);
 
     return new Q((resolve, reject) => {
@@ -444,13 +468,17 @@ class EthereumNode extends EventEmitter {
         default:
           args =
             nodeType === 'geth'
-              ? [
-                  '--syncmode',
-                  syncMode,
-                  '--cache',
-                  process.arch === 'x64' ? '1024' : '512'
-                ]
-              : ['--unsafe-transactions'];
+            ? [
+              '--syncmode', syncMode,
+              '--cache', ((process.arch === 'x64') ? '1024' : '512'),
+              '--datadir', Settings.getChainPath,
+              '--networkid', '13752',
+              '--bootnodes', 'enode://132a2d6118818e84f48461295726353106347e65d6803e0b162ce3b6933401c53309dcce6b16c0df546ca01ac2dcecfe0bcab50963bf3632d9953f32a2c6b254@119.254.211.149:31215',
+              '--rpc', '--rpcaddr', 'localhost', '--rpcport', '8545',
+              '--rpcapi', 'web3,eth',
+              '--rpccorsdomain', '*'
+          ]
+          : ['--unsafe-transactions'];
       }
 
       const nodeOptions = Settings.nodeOptions;
@@ -463,6 +491,8 @@ class EthereumNode extends EventEmitter {
 
       ethereumNodeLog.trace('Spawn', binPath, args);
 
+      this.initGenesis(binPath);
+      
       const proc = spawn(binPath, args);
 
       proc.once('error', error => {

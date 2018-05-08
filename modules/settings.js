@@ -11,6 +11,8 @@ import {
   setSwarmEnableOnStart
 } from './core/settings/actions';
 import logger from './utils/logger';
+const os = require('os');
+
 
 const settingsLog = logger.create('Settings');
 
@@ -161,13 +163,13 @@ class Settings {
     ipcPath = this.userHomePath;
 
     if (process.platform === 'darwin') {
-      ipcPath += '/Library/Ethereum/geth.ipc';
+      ipcPath += '/Library/CatCake/geth.ipc';
     } else if (
       process.platform === 'freebsd' ||
       process.platform === 'linux' ||
       process.platform === 'sunos'
     ) {
-      ipcPath += '/.ethereum/geth.ipc';
+      ipcPath += '/.catcake/geth.ipc';
     } else if (process.platform === 'win32') {
       ipcPath = '\\\\.\\pipe\\geth.ipc';
     }
@@ -191,6 +193,35 @@ class Settings {
 
   get nodeOptions() {
     return argv.nodeOptions;
+  }
+
+  get getChainPath() {
+      let chainPath = this.userHomePath;
+      if (process.platform === 'darwin') {
+          chainPath += '/Library/CatCake';
+      } else if (process.platform === 'freebsd' ||
+          process.platform === 'linux' ||
+          process.platform === 'sunos') {
+          chainPath += '/.catcake';
+      } else if (process.platform === 'win32') {
+          chainPath = '\\AppData\\Roaming\\CatCake';
+      }
+      return chainPath;
+  }
+
+  get getGenesisPath() {
+      let genesisPath = os.tmpdir();
+      if (process.platform === 'darwin') {
+          genesisPath += '/genesis.json';
+      } else if (process.platform === 'freebsd' ||
+          process.platform === 'linux' ||
+          process.platform === 'sunos') {
+          genesisPath += '/genesis.json';
+      } else if (process.platform === 'win32') {
+          genesisPath = '\\genesis.json';
+      }
+      return genesisPath;
+
   }
 
   get language() {

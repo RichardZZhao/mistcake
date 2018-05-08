@@ -42,17 +42,38 @@ mistInit = function() {
       );
     }
 
-    // overwrite wallet on start again, but use $set to preserve account titles
-    Tabs.upsert(
-      { _id: 'wallet' },
-      {
-        $set: {
-          url: 'https://wallet.ethereum.org',
-          redirect: 'https://wallet.ethereum.org',
-          position: 1,
-          permissions: {
-            admin: true
-          }
+        // overwrite wallet on start again, but use $set to dont remove titles
+        Tabs.upsert(
+            { _id: 'wallet' },
+            {
+                $set: {
+                    url: 'file://' + dirname + '/interface/wallet/index.html',
+                    redirect: 'file://' + dirname + '/interface/wallet/index.html',
+                    position: 1,
+                    permissions: {
+                        admin: true
+                    }
+                }
+            });
+
+        Tabs.upsert(
+            { _id: 'explorer' },
+            {
+                $set: {
+                    url: 'file://' + dirname + '/interface/explorer/index.html',
+                    redirect: 'file://' + dirname + '/interface/explorer/index.html',
+                    position: 2,
+                    permissions: {
+                        admin: true
+                    }
+                }
+            });    
+
+        // Sets browser as default tab if:
+        // 1) there's no record of selected tab
+        // 2) data is corrupted (no saved tab matches localstore)
+        if (!LocalStore.get('selectedTab') || !Tabs.findOne(LocalStore.get('selectedTab'))) {
+            LocalStore.set('selectedTab', 'wallet');
         }
       }
     );
@@ -64,7 +85,6 @@ mistInit = function() {
     ) {
       LocalStore.set('selectedTab', 'wallet');
     }
-  });
 };
 
 Meteor.startup(function() {

@@ -36,6 +36,8 @@ require('./modules/ipcCommunicator.js');
 const appMenu = require('./modules/menuItems');
 const ipcProviderBackend = require('./modules/ipc/ipcProviderBackend.js');
 const ethereumNode = require('./modules/ethereumNode.js');
+// we just disable swarm
+//const swarmNode = require('./modules/swarmNode.js');
 const nodeSync = require('./modules/nodeSync.js');
 
 // Define global vars; The preloader makes some globals available to the client.

@@ -110,9 +110,10 @@ Helpers.sanitizeUrl = function(url, returnEmptyURL) {
   url = url.replace(/[\t\n\r\s]+/g, '');
   url = url.replace(/^[:\/]{1,3}/i, 'http://');
 
-  if (returnEmptyURL && /^(?:file|javascript|data):/i.test(url)) {
-    url = false;
-  }
+    if (returnEmptyURL && /^(?:file|javascript|data):/i.test(url)) {
+        // allow mist to view local files
+        //url = false;
+    }
 
   return url;
 };

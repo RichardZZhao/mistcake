@@ -90,19 +90,18 @@ gulp.task('bundling-interface', cb => {
       }
     );
   };
+    // we will force to use local meteor-dapp-wallet and local block chain
+    if (true) {
+        if (true) {
+            console.log('Use local wallet at ../meteor-dapp-wallet/app');
+            console.log('Using local blockchain explorer at ../explorer/app');
+            bundle(`&& cd ../../meteor-dapp-wallet/app \
+                && meteor-build-client ../../mist/dist_${type}/app/interface/wallet -p "" \
+                && cp -R ../../explorer/app ../../mist/dist_${type}/app/interface/explorer`);
 
-  if (type === 'wallet') {
-    if (options.walletSource === 'local') {
-      console.log('Use local wallet at ../meteor-dapp-wallet/app');
-      bundle(`&& cd ../../meteor-dapp-wallet/app \
-                && meteor-build-client ../../mist/dist_${type}/app/interface/wallet -p ""`);
-    } else {
-      console.log(
-        `Pulling https://github.com/ethereum/meteor-dapp-wallet/tree/${
-          options.walletSource
-        } "${options.walletSource}" branch...`
-      );
-      bundle(`&& cd ../dist_${type} \
+        } else {
+            console.log(`Pulling https://github.com/ethereum/meteor-dapp-wallet/tree/${options.walletSource} "${options.walletSource}" branch...`);
+            bundle(`&& cd ../dist_${type} \
                 && git clone --depth 1 https://github.com/ethereum/meteor-dapp-wallet.git \
                 && cd meteor-dapp-wallet/app \
                 && meteor-build-client ../../app/interface/wallet -p "" \

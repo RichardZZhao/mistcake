@@ -518,6 +518,43 @@ let menuTempl = function(webviews) {
       });
     }
 
+    // Light mode switch should appear when not in Solo Mode (dev network)
+    if (ethereumNode.isOwnNode && ethereumNode.isGeth && !ethereumNode.isDevNetwork) {
+        devToolsMenu.push({
+            label: 'Sync with Light client (beta)',
+            enabled: true,
+            checked: ethereumNode.isLightMode,
+            type: 'checkbox',
+            click() {
+                restartNode('geth', null, (ethereumNode.isLightMode) ? 'fast' : 'light');
+            },
+        });
+    }
+
+    // Enables mining menu: only in Solo mode and Ropsten network (testnet)
+ //   if (ethereumNode.isOwnNode && (ethereumNode.isTestNetwork || ethereumNode.isDevNetwork)) {
+        devToolsMenu.push({
+            label: (global.mining) ? i18n.t('mist.applicationMenu.develop.stopMining') : i18n.t('mist.applicationMenu.develop.startMining'),
+            accelerator: 'CommandOrControl+Shift+M',
+            enabled: true,
+            click() {
+                if (global.mining) {
+                    stopMining(webviews);
+                } else {
+                    startMining(webviews);
+                }
+            }
+        });
+    devToolsMenu.push({
+        label: i18n.t('mist.applicationMenu.develop.stopMining'),
+        accelerator: 'CommandOrControl+Shift+M',
+        enabled: true,
+        click() {
+            stopMining(webviews);
+        }
+    });
+ //   }
+
     devToolsMenu.push({
       label: i18n.t('mist.applicationMenu.develop.ethereumNode'),
       submenu: nodeSubmenu
