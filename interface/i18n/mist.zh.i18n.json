@@ -52,7 +52,8 @@
                 "openRemix": "Open Remix IDE",
                 "nodeMode": "Chain download",
                 "fullNode": "Store full blockchain",
-                "lightNode": "Use light Node (experimental!)"
+                "lightNode": "Use light Node (experimental!)",
+                "mine": "挖矿"
             },
             "window": {
                 "label": "窗口",

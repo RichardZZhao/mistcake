@@ -239,14 +239,14 @@ let menuTempl = function(webviews) {
           Windows.createPopup('requestAccount');
         }
       },
-      {
+/*      {
         label: i18n.t('mist.applicationMenu.file.importPresale'),
         accelerator: 'CommandOrControl+I',
         enabled: ethereumNode.isMainNetwork,
         click() {
           Windows.createPopup('importAccount');
         }
-      },
+      }, */
       {
         type: 'separator'
       },
@@ -269,7 +269,7 @@ let menuTempl = function(webviews) {
                 // geth
               } else {
                 if (process.platform === 'darwin') {
-                  userPath += '/Library/Ethereum/keystore';
+                  userPath += '/Library/CatCake/keystore';
                 }
 
                 if (
@@ -277,11 +277,11 @@ let menuTempl = function(webviews) {
                   process.platform === 'linux' ||
                   process.platform === 'sunos'
                 ) {
-                  userPath += '/.ethereum/keystore';
+                  userPath += '/.catecake/keystore';
                 }
 
                 if (process.platform === 'win32') {
-                  userPath = `${Settings.appDataPath}\\Ethereum\\keystore`;
+                  userPath = `${Settings.appDataPath}\\CateCake\\keystore`;
                 }
               }
 
@@ -296,7 +296,7 @@ let menuTempl = function(webviews) {
           }
         ]
       },
-      ...swarmUpload
+    //  ...swarmUpload
     ]
   });
 
@@ -384,10 +384,11 @@ let menuTempl = function(webviews) {
           mainWindow.window.setFullScreen(!mainWindow.window.isFullScreen());
         }
       },
+      /*
       {
         label: i18n.t('mist.applicationMenu.view.languages'),
         submenu: languageMenu
-      }
+      } */
     ]
   });
 
@@ -444,7 +445,7 @@ let menuTempl = function(webviews) {
       }
     ];
   }
-
+/*
   devToolsMenu.push({
     label: i18n.t('mist.applicationMenu.develop.devTools'),
     submenu: devtToolsSubMenu
@@ -485,7 +486,7 @@ let menuTempl = function(webviews) {
   devToolsMenu.push({
     type: 'separator'
   });
-
+*/
   // add node switch
   if (process.platform === 'darwin' || process.platform === 'win32') {
     const nodeSubmenu = [];
@@ -519,7 +520,7 @@ let menuTempl = function(webviews) {
     }
 
     // Light mode switch should appear when not in Solo Mode (dev network)
-    if (ethereumNode.isOwnNode && ethereumNode.isGeth && !ethereumNode.isDevNetwork) {
+/*    if (ethereumNode.isOwnNode && ethereumNode.isGeth && !ethereumNode.isDevNetwork) {
         devToolsMenu.push({
             label: 'Sync with Light client (beta)',
             enabled: true,
@@ -529,7 +530,7 @@ let menuTempl = function(webviews) {
                 restartNode('geth', null, (ethereumNode.isLightMode) ? 'fast' : 'light');
             },
         });
-    }
+    } */
 
     // Enables mining menu: only in Solo mode and Ropsten network (testnet)
  //   if (ethereumNode.isOwnNode && (ethereumNode.isTestNetwork || ethereumNode.isDevNetwork)) {
@@ -554,14 +555,15 @@ let menuTempl = function(webviews) {
         }
     });
  //   }
-
+/*
     devToolsMenu.push({
       label: i18n.t('mist.applicationMenu.develop.ethereumNode'),
       submenu: nodeSubmenu
-    });
+    }); */
   }
 
   // add network switch
+  /*
   devToolsMenu.push({
     label: i18n.t('mist.applicationMenu.develop.network'),
     submenu: [
@@ -622,9 +624,9 @@ let menuTempl = function(webviews) {
       click() {
         restartNode('geth', null, ethereumNode.isLightMode ? 'fast' : 'light');
       }
-    });
+    }); 
   }
-
+*/
   // Enables mining menu: only in Solo mode and Ropsten network (testnet)
   if (
     ethereumNode.isOwnNode &&
@@ -645,7 +647,7 @@ let menuTempl = function(webviews) {
       }
     });
   }
-
+/*
   if (global.mode !== 'wallet') {
     devToolsMenu.push(
       {
@@ -664,11 +666,11 @@ let menuTempl = function(webviews) {
       }
     );
   }
-
+*/
   menu.push({
     label:
       (global.mining ? '⛏ ' : '') +
-      i18n.t('mist.applicationMenu.develop.label'),
+      i18n.t('mist.applicationMenu.develop.mine'),
     submenu: devToolsMenu
   });
 
@@ -744,11 +746,11 @@ let menuTempl = function(webviews) {
     }
   );
 
-  menu.push({
+ /* menu.push({
     label: i18n.t('mist.applicationMenu.help.label'),
     role: 'help',
     submenu: helpMenu
-  });
+  });*/
   return menu;
 };
 
