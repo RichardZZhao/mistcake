@@ -96,7 +96,7 @@ gulp.task('bundling-interface', cb => {
             console.log('Use local wallet at ../meteor-dapp-wallet/app');
             console.log('Using local blockchain explorer at ../explorer/app');
             bundle(`&& cd ../../meteor-dapp-wallet/app \
-                && meteor-build-client ../../mist/dist_${type}/app/interface/wallet -p "" \
+                && cp -R ../../meteor-dapp-wallet/build ../../mist/dist_${type}/app/interface/wallet\
                 && cp -R ../../explorer/app ../../mist/dist_${type}/app/interface/explorer`);
 
         } else {
@@ -189,7 +189,8 @@ gulp.task('build-dist', cb => {
               [
                 path.join(__dirname, '..', 'LICENSE'),
                 path.join(__dirname, '..', 'README.md'),
-                path.join(__dirname, '..', 'AUTHORS')
+                path.join(__dirname, '..', 'AUTHORS'),
+                path.join(__dirname, '..', 'genesis.json')
               ],
               params.appOutDir
             );

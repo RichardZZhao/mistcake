@@ -340,7 +340,7 @@ class EthereumNode extends EventEmitter {
          */
 
             // read and write file to genesis.json
-        const genesisCont = fs.readFileSync('./genesis.json');
+        const genesisCont = fs.readFileSync('../genesis.json');
         fs.writeFileSync(Settings.getGenesisPath, genesisCont);
         const argsGen = [
             'init', Settings.getGenesisPath,

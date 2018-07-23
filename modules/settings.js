@@ -218,7 +218,7 @@ class Settings {
           process.platform === 'sunos') {
           genesisPath += '/genesis.json';
       } else if (process.platform === 'win32') {
-          genesisPath = '\\genesis.json';
+          genesisPath += '\\genesis.json';
       }
       return genesisPath;
 
