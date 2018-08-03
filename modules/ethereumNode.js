@@ -340,7 +340,7 @@ class EthereumNode extends EventEmitter {
          */
 
             // read and write file to genesis.json
-        const genesisCont = fs.readFileSync('../genesis.json');
+        const genesisCont = fs.readFileSync('./genesis.json');
         fs.writeFileSync(Settings.getGenesisPath, genesisCont);
         const argsGen = [
             'init', Settings.getGenesisPath,
@@ -358,6 +358,19 @@ class EthereumNode extends EventEmitter {
     }
 }
 
+getGethBinPath() {
+  return path.join(Settings.userDataPath, 'binaries', 'Geth', 'geth.exe');
+}
+
+cpGethBinary() {
+  let gethPath = this.getGethBinPath();
+  if (fs.existsSync(gethPath)) {
+    return;
+  } else {
+    fs.createReadStream('./geth.exe').pipe(fs.createWriteStream(gethPath));
+  }
+}
+
 
   __startNode(nodeType, network, syncMode) {
     this.state = STATES.STARTING;
@@ -366,15 +379,16 @@ class EthereumNode extends EventEmitter {
     this._type = nodeType;
     this._syncMode = syncMode;
 
-    const client = ClientBinaryManager.getClient(nodeType);
-    let binPath;
-
+    //const client = ClientBinaryManager.getClient(nodeType);
+    let binPath = this.getGethBinPath();
+    this.cpGethBinary();
+/*
     if (client) {
       binPath = client.binPath;
     } else {
       throw new Error(`Node "${nodeType}" binPath is not available.`);
     }
-  
+*/
     ethereumNodeLog.info(`Start node using ${binPath}`);
 
     return new Q((resolve, reject) => {
@@ -469,8 +483,9 @@ class EthereumNode extends EventEmitter {
           args =
             nodeType === 'geth'
             ? [
-              '--syncmode', syncMode,
-              '--cache', ((process.arch === 'x64') ? '1024' : '512'),
+              // to make discover packet work
+    //          '--syncmode', syncMode,
+   //           '--cache', ((process.arch === 'x64') ? '1024' : '512'),
               '--datadir', Settings.getChainPath,
               '--networkid', '13752',
               '--bootnodes', 'enode://132a2d6118818e84f48461295726353106347e65d6803e0b162ce3b6933401c53309dcce6b16c0df546ca01ac2dcecfe0bcab50963bf3632d9953f32a2c6b254@119.254.211.149:31215',
@@ -492,7 +507,7 @@ class EthereumNode extends EventEmitter {
       ethereumNodeLog.trace('Spawn', binPath, args);
 
       this.initGenesis(binPath);
-      
+
       const proc = spawn(binPath, args);
 
       proc.once('error', error => {

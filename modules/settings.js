@@ -204,7 +204,7 @@ class Settings {
           process.platform === 'sunos') {
           chainPath += '/.catcake';
       } else if (process.platform === 'win32') {
-          chainPath = '\\AppData\\Roaming\\CatCake';
+          chainPath += '\\AppData\\Roaming\\CatCake';
       }
       return chainPath;
   }

@@ -28,9 +28,9 @@ class Manager extends EventEmitter {
     log.info('Initializing...');
 
     // check every hour
-    setInterval(() => this._checkForNewConfig(true), 1000 * 60 * 60);
+   // setInterval(() => this._checkForNewConfig(true), 1000 * 60 * 60);
 
-    return this._checkForNewConfig(restart);
+   // return this._checkForNewConfig(restart);
   }
 
   getClient(clientId) {
