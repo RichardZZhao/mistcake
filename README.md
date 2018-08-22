@@ -1,304 +1,49 @@
-# Mist Browser<sup>beta</sup>
 
-[![Github All Releases](https://img.shields.io/github/downloads/ethereum/mist/total.svg)]()
-[![Build Status develop branch](https://travis-ci.org/ethereum/mist.svg?branch=develop)](https://travis-ci.org/ethereum/mist)
-[![Join the chat at https://gitter.im/ethereum/mist](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ethereum/mist)
-[![Code Triagers Badge](https://www.codetriage.com/ethereum/mist/badges/users.svg)](https://www.codetriage.com/ethereum/mist)
+# 猫饼区块链
 
-The Mist browser is the tool of choice to browse and use Ðapps.
+#### 说明
+猫饼区块链是用以太坊开源程序编译形成的公链。公有链(public blockchain)是指全世界任何人都可读取、发送交易且能获得有效确认的共识区块链。
 
-For the Mist API see the [MISTAPI.md](MISTAPI.md).
+发行猫饼区块链的目的主要是让大家体验一下区块链史前时代的那种寂寞高冷的状态，就是哗啦哗啦的挖矿，但挖了矿神马用处都没有的那种感觉。
 
-Please note that this repository is the Electron host for the Meteor based wallet dapp whose repository is located here: https://github.com/ethereum/meteor-dapp-wallet.
+so，本链严正声明，谁把这个区块链的猫饼弄上那些所谓的交易所上去交易谁特么的是孙子。猫饼的价值不由那些所谓的法币来标定。那些法币也无权来标定猫饼的价值。本链认为虚拟的价值由虚拟的世界来认可，不需要现实世界的认可！
 
-## Help and troubleshooting
+本链兼容以太坊上的智能合约与DAPP应用。以后也计划兼容。本链不支持矿机、不欢迎GPU挖矿，期望普通用户在消耗少许的算力的情况下用普通的家用PC就能获得区块的奖励。本链将持续的改进共识算法，使得这一目标得以永久的得到贯彻。
 
-In order to get help regarding Mist or Ethereum Wallet, please follow:
 
-1.  Please check the [Mist troubleshooting guide](https://github.com/ethereum/mist/wiki).
-1.  Go to the [Gitter Channel](https://gitter.im/ethereum/mist) to connect with the community for instant help.
-1.  Search for [similar issues](https://github.com/ethereum/mist/issues?q=is%3Aopen+is%3Aissue+label%3A%22Type%3A+Canonical%22) and potential help.
-1.  Or create a [new issue](https://github.com/ethereum/mist/issues).
+#### 下载地址：
+https://github.com/catcakechain/mistcake/releases
+（找到“MistCake-installer-0-10-0.exe”这个文件，点击下载，用系统管理员权限进行安装即可。）
+（此为32位/64位 windows系统下的全节点程序，包含了区块链主程序、挖矿程序以及区块链浏览器所有的模块。一键安装，安装完直接使用就可以了。不需要其他的知识了。挖矿在那个菜单里面，眼睛大点就能看到。）
 
-## How to contribute
+#### 区块奖励：
+猫饼链的区块奖励奖励机制和以太坊的区块奖励机制一致。区块有两种，普通区块和叔块，我们需要分情况来讨论每种区块的奖励。
+##### 普通区块奖励：
+- 每个普通区块固定奖励5个猫饼
+- 区块内包含的所有的当前智能合约的Gas花费的总和
+- 如果普通区块包含了叔块，每包含一个叔块可以得到固定奖励5个猫饼的1/32，也就是0.15625猫饼。
 
-Contributions via Pull Requests are so welcome. You can see where to help looking for issues with the [Enhancement](https://github.com/ethereum/mist/issues?q=is%3Aopen+is%3Aissue+label%3A%22Type%3A+Enhancement%22) or [Bug](https://github.com/ethereum/mist/issues?q=is%3Aopen+is%3Aissue+label%3A%22Type%3A+Bug%22) labels. We can help guiding you towards the solution.
+##### 叔块奖励：
+叔块的奖励计算有些复杂，公式为：
+叔块奖励 = ( 叔块高度 + 8 - 包含叔块的区块的高度 ) * 普通区块奖励 / 8
 
-You can also help by [responding to issues](https://github.com/ethereum/mist/issues?q=is%3Aissue+is%3Aopen+label%3A%22Status%3A+Triage%22). Sign up on [CodeTriage](https://www.codetriage.com/ethereum/mist) and it'll send you gentle notifications with a configurable frequency. It is a nice way to help while learning.
+#### 猫饼总数
 
-## Installation
+##### 区块奖励
+目前，每产生一个新区块就会产生5个新的猫饼。计算一下，如果每14秒挖出一个区块，一年有3150万秒（365x24x60x60），这意味着每年有225万个区块被挖出来。225万个区块，每个区块5个猫饼，也就是每年会产出1130万个猫饼。
 
-If you want to install the app from a pre-built version on the [release page](https://github.com/ethereum/mist/releases),
-you can simply run the executeable after download.
+##### 叔块奖励
+事实上，数量可能会比上述数字稍多一些。有些区块被挖得稍晚一些，因此不能称为主区块链的组成部分。这类区块为“孤块”，并且完全舍弃它们，可称它们为“ uncles”，并且在之后的区块中，可以引用它们。如果uncles在之后的区块链中作为叔块被引用，每个叔块会为挖矿者产出大约4.375个猫饼（5个猫饼奖励的8分之7）.这被称之为叔块奖励。目前每天有大约500个叔块被创建，为猫饼的日产量链，额外加入2000个猫饼（以这种速度，每年产量为70万个猫饼）。
 
-For updating simply download the new version and copy it over the old one (keep a backup of the old one if you want to be sure).
+#### 未来的设想
+本链意图解决虚拟世界中的事情，凡是与现实世界无关的事情，本链都以后想去尝试解决解决。譬如：通用的虚拟身份，通用的虚拟世界的评价机制；虚拟世界中的信用与担保；虚拟世界中的各种声明与归属追溯。
 
-### Linux .zip installs
+本链也意图进一步的优化区块链浏览器的用户体验，使得ta变得能够为广大的普通用户所接受和掌握。
 
-In order to install from .zip files, please install `libgconf2-4` first:
+#### 其他
+所以，关于区块链的知识、关于以太坊的知识，乃至包括如何使用，就请大家在网上搜索一下吧，本链的文字说明大概就只有这些了。
 
-```bash
-apt-get install libgconf2-4
-```
+以上。祝好，祝玩的开心。
 
-### Config folder
-
-The data folder for Mist is stored in other places:
-
-* Windows `%APPDATA%\Mist`
-* macOS `~/Library/Application\ Support/Mist`
-* Linux `~/.config/Mist`
-
-## Development
-
-For development, a Meteor server will need to be started to assist with live reload and CSS injection.
-Once a Mist version is released the Meteor frontend part is bundled using the `meteor-build-client` npm package to create pure static files.
-
-### Dependencies
-
-To run mist in development you need:
-
-* [Node.js](https://nodejs.org) `v7.x` (use the prefered installation method for your OS)
-* [Meteor](https://www.meteor.com/install) javascript app framework
-* [Yarn](https://yarnpkg.com/) package manager
-* [Electron](http://electron.atom.io/) `v1.7.11` cross platform desktop app framework
-* [Gulp](http://gulpjs.com/) build and automation system
-
-Install the latter ones via:
-
-```bash
-$ curl https://install.meteor.com/ | sh
-$ curl -o- -L https://yarnpkg.com/install.sh | bash
-$ yarn global add electron@1.8.4
-$ yarn global add gulp
-```
-
-### Initialisation
-
-Now you're ready to initialise Mist for development:
-
-```bash
-$ git clone https://github.com/ethereum/mist.git
-$ cd mist
-$ yarn
-```
-
-To update Mist in the future, run:
-
-```bash
-$ cd mist
-$ git pull
-$ yarn
-```
-
-### Run Mist
-
-For development we start the interface with a Meteor server for autoreload etc.
-_Start the interface in a separate terminal window:_
-
-```bash
-$ cd mist/interface && meteor --no-release-check
-```
-
-In the original window you can then start Mist with:
-
-```bash
-$ cd mist
-$ yarn dev:electron
-```
-
-_NOTE: client-binaries (e.g. [geth](https://github.com/ethereum/go-ethereum)) specified in [clientBinaries.json](https://github.com/ethereum/mist/blob/master/clientBinaries.json) will be checked during every startup and downloaded if out-of-date, binaries are stored in the [config folder](#config-folder)_
-
-_NOTE: use `--help` to display available options, e.g. `--loglevel debug` (or `trace`) for verbose output_
-
-### Run the Wallet
-
-Start the wallet app for development, _in a separate terminal window:_
-
-```bash
-$ cd mist/interface && meteor --no-release-check
-```
-
-In another terminal:
-
-```bash
-$ cd my/path/meteor-dapp-wallet/app && meteor --port 3050
-```
-
-In the original window you can then start Mist using wallet mode:
-
-```bash
-$ cd mist
-$ yarn dev:electron --mode wallet
-```
-
-### Connecting to node via HTTP instead of IPC
-
-This is useful if you have a node running on another machine, though note that
-it's less secure than using the default IPC method.
-
-```bash
-$ yarn dev:electron --rpc http://localhost:8545
-```
-
-### Passing options to Geth
-
-You can pass command-line options directly to Geth by prefixing them with `--node-` in
-the command-line invocation:
-
-```bash
-$ yarn dev:electron --mode mist --node-rpcport 19343 --node-networkid 2
-```
-
-The `--rpc` Mist option is a special case. If you set this to an IPC socket file
-path then the `--ipcpath` option automatically gets set, i.e.:
-
-```bash
-$ yarn dev:electron --rpc /my/geth.ipc
-```
-
-...is the same as doing...
-
-```bash
-$ yarn dev:electron --rpc /my/geth.ipc --node-ipcpath /my/geth.ipc
-```
-
-### Creating a local private net
-
-See this guide to quickly set up a local private network on your computer:
-https://gist.github.com/evertonfraga/9d65a9f3ea399ac138b3e40641accf23
-
-### Using Mist with a privatenet
-
-To run a private network you will need to set the IPC path, network id and data
-folder:
-
-```bash
-$ yarn dev:electron --rpc ~/Library/Ethereum/geth.ipc --node-networkid 1234 --node-datadir ~/Library/Ethereum/privatenet
-```
-
-_NOTE: since `ipcpath` is also a Mist option you do not need to also include a
-`--node-ipcpath` option._
-
-You can also launch `geth` separately with the same options prior starting
-Mist.
-
-### Deployment
-
-Our build system relies on [gulp](http://gulpjs.com/) and [electron-builder](https://github.com/electron-userland/electron-builder/).
-
-#### Dependencies
-
-[meteor-build-client](https://github.com/frozeman/meteor-build-client) bundles the [meteor](https://www.meteor.com/)-based interface. Install it via:
-
-```bash
-$ npm install -g meteor-build-client
-```
-
-Furthermore cross-platform builds require additional [`electron-builder` dependencies](https://github.com/electron-userland/electron-builder/wiki/Multi-Platform-Build#linux). On macOS those are:
-
-Windows deps:
-
-```bash
-$ brew install wine --without-x11 mono makensis
-```
-
-Linux deps:
-
-```bash
-$ brew install gnu-tar libicns graphicsmagick xz
-```
-
-#### Generate packages
-
-To generate the binaries for Mist run:
-
-```bash
-$ gulp
-```
-
-To generate the Ethereum Wallet (this will pack the one Ðapp from https://github.com/ethereum/meteor-dapp-wallet):
-
-```bash
-$ gulp --wallet
-```
-
-The generated binaries will be under `dist_mist/release` or `dist_wallet/release`.
-
-#### Options
-
-##### platform
-
-To build binaries for specific platforms (default: all available) use the following flags:
-
-```bash
-$ gulp --mac      # mac
-$ gulp --linux    # linux
-$ gulp --win      # windows
-```
-
-##### walletSource
-
-With the `walletSource` you can specify the Wallet branch to use, default is `master`:
-
-    $ gulp --wallet --walletSource develop
-
-Options are:
-
-* `master`
-* `develop`
-* `local` Will try to build the wallet from [mist/]../meteor-dapp-wallet/app
-
-_Note: applicable only when combined with `--wallet`_
-
-##### skipTasks
-
-When building a binary, you can optionally skip some tasks — generally for testing purposes.
-
-```bash
-$ gulp --mac --skipTasks=bundling-interface,release-dist
-```
-
-##### Checksums
-
-Spits out the MD5 checksums of distributables.
-
-It expects installer/zip files to be in the generated folders e.g. `dist_mist/release`
-
-```bash
-$ gulp checksums [--wallet]
-```
-
-#### Cutting a release
-
-1.  Install [release](https://github.com/zeit/release) globally:
-
-    ```bash
-    $ yarn global add release
-    ```
-
-2.  Create a git tag and a GitHub release:
-
-    ```bash
-    $ release <major|minor|patch>
-    ```
-
-3.  A generated release draft will open in the default browser. Edit the information and add assets as necessary.
-
-## Testing
-
-Tests are ran using [Spectron](https://github.com/electron/spectron/), a webdriver.io runner built for Electron.
-
-First make sure to build Mist with:
-
-```bash
-$ gulp
-```
-
-Then run the tests:
-
-```bash
-$ gulp test
-```
-
-_Note: Integration tests are not yet supported on Windows._
+#### 免责
+信不信任听天由命，出了啥事情也不要来找本链。本链不负责本链无法承担的事情。就是玩玩，不许认真。
