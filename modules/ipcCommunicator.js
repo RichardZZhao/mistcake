@@ -153,7 +153,7 @@ ipc.on('backendAction_checkWalletFile', (e, path) => {
           // geth
         } else {
           if (process.platform === 'darwin')
-            keystorePath += '/Library/Ethereum/keystore';
+            keystorePath += '/Library/CatCake/keystore';
 
           if (
             process.platform === 'freebsd' ||
@@ -163,7 +163,7 @@ ipc.on('backendAction_checkWalletFile', (e, path) => {
             keystorePath += '/.ethereum/keystore';
 
           if (process.platform === 'win32')
-            keystorePath = `${Settings.appDataPath}\\Ethereum\\keystore`;
+            keystorePath = `${Settings.appDataPath}\\CatCake\\keystore`;
         }
 
         if (!/^[0-9a-fA-F]{40}$/.test(keyfile.address)) {

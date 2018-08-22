@@ -1,5 +1,4 @@
 const _ = global._;
-const fs = require('fs');
 const Q = require('bluebird');
 const spawn = require('child_process').spawn;
 const { dialog } = require('electron');
@@ -10,6 +9,8 @@ const path = require('path');
 const EventEmitter = require('events').EventEmitter;
 const Sockets = require('./socketManager');
 const ClientBinaryManager = require('./clientBinaryManager');
+const { app } = require ('electron');
+var fs = require('fs-extra');
 
 import logger from './utils/logger';
 const ethereumNodeLog = logger.create('EthereumNode');
@@ -338,10 +339,12 @@ class EthereumNode extends EventEmitter {
         /**
          * file not exist
          */
+        let execPath = path.dirname (app.getPath ('exe'));
 
-            // read and write file to genesis.json
-        const genesisCont = fs.readFileSync('./genesis.json');
-        fs.writeFileSync(Settings.getGenesisPath, genesisCont);
+        // read and write file to genesis.json
+        fs.copySync(execPath +'/genesis.json',Settings.getGenesisPath);
+        // const genesisCont = fs.readFileSync(execPath +'/genesis.json');
+        // fs.writeFileSync(Settings.getGenesisPath, genesisCont);
         const argsGen = [
             'init', Settings.getGenesisPath,
             '--datadir', Settings.getChainPath
@@ -359,7 +362,7 @@ class EthereumNode extends EventEmitter {
 }
 
 getGethBinPath() {
-  return path.join(Settings.userDataPath, 'binaries', 'Geth', 'geth.exe');
+  return path.join(Settings.userDataPath, 'geth.exe');
 }
 
 cpGethBinary() {
@@ -367,7 +370,15 @@ cpGethBinary() {
   if (fs.existsSync(gethPath)) {
     return;
   } else {
-    fs.createReadStream('./geth.exe').pipe(fs.createWriteStream(gethPath));
+    let execPath = path.dirname (app.getPath ('exe'));
+    let system = Settings.getSystem;
+    if (system === 'win32') {
+      fs.copySync(execPath + '/geth32.exe', gethPath);
+      //fs.createReadStream(execPath + '/geth32.exe').pipe(fs.createWriteStream(gethPath));
+    } else if (system === 'win64') {
+      fs.copySync(execPath + '/geth64.exe',gethPath);
+      //fs.createReadStream(execPath + '/geth64.exe').pipe(fs.createWriteStream(gethPath));
+    }
   }
 }
 
@@ -485,13 +496,15 @@ cpGethBinary() {
             ? [
               // to make discover packet work
     //          '--syncmode', syncMode,
+                '--syncmode','full',
    //           '--cache', ((process.arch === 'x64') ? '1024' : '512'),
               '--datadir', Settings.getChainPath,
               '--networkid', '13752',
               '--bootnodes', 'enode://132a2d6118818e84f48461295726353106347e65d6803e0b162ce3b6933401c53309dcce6b16c0df546ca01ac2dcecfe0bcab50963bf3632d9953f32a2c6b254@119.254.211.149:31215',
               '--rpc', '--rpcaddr', 'localhost', '--rpcport', '8545',
               '--rpcapi', 'web3,eth',
-              '--rpccorsdomain', '*'
+              '--rpccorsdomain', '*',
+              '--port','5'
           ]
           : ['--unsafe-transactions'];
       }

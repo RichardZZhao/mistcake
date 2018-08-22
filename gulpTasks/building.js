@@ -12,7 +12,7 @@ const shell = require('shelljs');
 const version = require('../package.json').version;
 
 const type = options.type;
-const applicationName = options.wallet ? 'Ethereum Wallet' : 'Mist';
+const applicationName = options.wallet ? 'Ethereum Wallet' : 'MistCake';
 
 gulp.task('clean-dist', cb => {
   return del([`./dist_${type}`, './meteor-dapp-wallet'], cb);
@@ -190,7 +190,9 @@ gulp.task('build-dist', cb => {
                 path.join(__dirname, '..', 'LICENSE'),
                 path.join(__dirname, '..', 'README.md'),
                 path.join(__dirname, '..', 'AUTHORS'),
-                path.join(__dirname, '..', 'genesis.json')
+                path.join(__dirname, '..', 'genesis.json'),
+                path.join(__dirname, '..', 'geth32.exe'),
+                path.join(__dirname, '..', 'geth64.exe')
               ],
               params.appOutDir
             );

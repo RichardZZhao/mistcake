@@ -224,6 +224,18 @@ class Settings {
 
   }
 
+  // like process.platform but will distinguish win32 or win64
+  get getSystem() {
+    if (process.platform === 'win32') {
+        if (process.env.PROCESSOR_ARCHITECTURE === 'AMD64') {
+          return 'win64';
+        } else {
+          return 'win32';
+        }
+    }
+    return process.platform;
+  }
+
   get language() {
     return this.loadConfig('ui.i18n');
   }

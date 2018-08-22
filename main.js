@@ -44,7 +44,7 @@ const nodeSync = require('./modules/nodeSync.js');
 global.webviews = [];
 global.mining = false;
 global.mode = store.getState().settings.uiMode;
-global.icon = `${__dirname}/icons/${global.mode}/icon.png`;
+global.icon = `${__dirname}/icons/${global.mode}/icon@16.png`;
 global.dirname = __dirname;
 global.i18n = i18n;
 
