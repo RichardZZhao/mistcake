@@ -467,7 +467,7 @@ class Windows {
         return {
           electronOptions: {
             width: 420,
-            height: 230,
+            height: 290,
             alwaysOnTop: true
           }
         };

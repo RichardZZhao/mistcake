@@ -234,8 +234,8 @@ exports.mocha = (_module, options) => {
           { _id: 'wallet' },
           {
             $set: {
-              url: 'https://wallet.ethereum.org',
-              redirect: 'https://wallet.ethereum.org',
+              url: 'https://github.com/catcakechain/mistcake',
+              redirect: 'https://github.com/catcakechain/mistcake',
               position: 1,
               permissions: { admin: true }
             }

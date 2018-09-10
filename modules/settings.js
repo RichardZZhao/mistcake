@@ -163,13 +163,13 @@ class Settings {
     ipcPath = this.userHomePath;
 
     if (process.platform === 'darwin') {
-      ipcPath += '/Library/CatCake/geth.ipc';
+      ipcPath += '/Library/MistCake/geth.ipc';
     } else if (
       process.platform === 'freebsd' ||
       process.platform === 'linux' ||
       process.platform === 'sunos'
     ) {
-      ipcPath += '/.catcake/geth.ipc';
+      ipcPath += '/.mistcake/geth.ipc';
     } else if (process.platform === 'win32') {
       ipcPath = '\\\\.\\pipe\\geth.ipc';
     }
@@ -198,13 +198,13 @@ class Settings {
   get getChainPath() {
       let chainPath = this.userHomePath;
       if (process.platform === 'darwin') {
-          chainPath += '/Library/CatCake';
+          chainPath += '/Library/MistCake';
       } else if (process.platform === 'freebsd' ||
           process.platform === 'linux' ||
           process.platform === 'sunos') {
           chainPath += '/.catcake';
       } else if (process.platform === 'win32') {
-          chainPath += '\\AppData\\Roaming\\CatCake';
+          chainPath += '\\AppData\\Roaming\\MistCake';
       }
       return chainPath;
   }

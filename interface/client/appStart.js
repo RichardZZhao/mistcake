@@ -29,8 +29,8 @@ mistInit = function() {
 
       Tabs.insert({
         _id: 'browser',
-        url: 'https://ethereum.org',
-        redirect: 'https://ethereum.org',
+        url: 'https://github.com/catcakechain/mistcake',
+        redirect: 'https://github.com/catcakechain/mistcake',
         position: 0
       });
     } else {

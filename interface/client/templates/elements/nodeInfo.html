@@ -1,7 +1,8 @@
 <template name="elements_nodeInfo">
     <div class="node-info">
         {{#if TemplateVar.get "mining"}}
-            <span data-tooltip="Mining" class="mining-indicator simptip-position-top simptip-movable">⛏ {{TemplateVar.get "mining"}}&nbsp;KH/s</span>
+            <div style="font-size:10px">挖矿中...</div>
+            <img src="../icons/mist/mining.gif" width="50px" height="72px">
         {{/if}}
 
         {{#with TemplateVar.get "syncing"}}

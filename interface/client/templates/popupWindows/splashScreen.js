@@ -50,7 +50,8 @@ Template['popupWindows_splashScreen'].onCreated(function() {
         TemplateVar.set(
           template,
           'text',
-          TAPi18n.__('mist.startScreen.nodeStarting')
+          //TAPi18n.__('mist.startScreen.nodeStarting')
+          '猫饼节点启动中...'
         );
         showNodeLog = true;
         TemplateVar.set(template, 'logText', null);
@@ -63,7 +64,8 @@ Template['popupWindows_splashScreen'].onCreated(function() {
         TemplateVar.set(
           template,
           'text',
-          TAPi18n.__('mist.startScreen.nodeStarted')
+         // TAPi18n.__('mist.startScreen.nodeStarted')
+         '猫饼节点已启动'
         );
         break;
 
@@ -71,7 +73,8 @@ Template['popupWindows_splashScreen'].onCreated(function() {
         TemplateVar.set(
           template,
           'text',
-          TAPi18n.__('mist.startScreen.nodeConnected')
+          //TAPi18n.__('mist.startScreen.nodeConnected')
+          '猫饼节点已连接'
         );
         lastSyncData = {};
         break;
@@ -105,7 +108,7 @@ Template['popupWindows_splashScreen'].onCreated(function() {
       case 'error':
         errorTag = 'mist.startScreen.' + (errorTag || 'nodeError');
 
-        TemplateVar.set(template, 'text', TAPi18n.__(errorTag));
+        TemplateVar.set(template, 'text', '节点连接失败，请尝试重新启动'/*TAPi18n.__(errorTag)*/);
         TemplateVar.set(template, 'showRetryConnectionButton', true);
         TemplateVar.set(
           template,
@@ -126,7 +129,8 @@ Template['popupWindows_splashScreen'].onCreated(function() {
       TemplateVar.set(
         template,
         'startAppButtonText',
-        TAPi18n.__('mist.startScreen.launchApp')
+        //TAPi18n.__('mist.startScreen.launchApp')
+        '启动应用程序'
       );
 
       if (data !== false) {
@@ -185,7 +189,8 @@ Template['popupWindows_splashScreen'].onCreated(function() {
       TemplateVar.set(
         template,
         'text',
-        TAPi18n.__('mist.startScreen.nodeSyncing')
+        //TAPi18n.__('mist.startScreen.nodeSyncing')
+        '需要同步猫饼链，请等待……'
       );
       TemplateVar.set(template, 'syncStatusMessage', translationString);
     }

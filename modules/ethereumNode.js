@@ -334,7 +334,7 @@ class EthereumNode extends EventEmitter {
   }
 
   initGenesis(binPath) {
-    const chainPath = Settings.getChainPath;
+    const chainPath = Settings.getChainPath+"//geth";
     if (!fs.existsSync(chainPath)) {
         /**
          * file not exist

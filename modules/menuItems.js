@@ -172,7 +172,7 @@ let menuTempl = function(webviews) {
 
   fileMenu.push({
     label: i18n.t('mist.applicationMenu.app.quit', {
-      app: Settings.appName
+      app: '猫饼链'
     }),
     accelerator: 'CommandOrControl+Q',
     click() {
@@ -182,7 +182,7 @@ let menuTempl = function(webviews) {
 
   menu.push({
     label: i18n.t('mist.applicationMenu.app.label', {
-      app: Settings.appName
+      app: '猫饼链'
     }),
     submenu: fileMenu
   });
@@ -269,7 +269,7 @@ let menuTempl = function(webviews) {
                 // geth
               } else {
                 if (process.platform === 'darwin') {
-                  userPath += '/Library/CatCake/keystore';
+                  userPath += '/Library/MistCake/keystore';
                 }
 
                 if (
@@ -281,7 +281,7 @@ let menuTempl = function(webviews) {
                 }
 
                 if (process.platform === 'win32') {
-                  userPath = `${Settings.appDataPath}\\CateCake\\keystore`;
+                  userPath = `${Settings.appDataPath}\\MistCake\\keystore`;
                 }
               }
 
@@ -695,7 +695,17 @@ let menuTempl = function(webviews) {
       {
         label: i18n.t('mist.applicationMenu.window.toFront'),
         role: 'front'
-      }
+      },
+    /*  {
+        label: i18n.t('mist.applicationMenu.develop.devToolsMistUI'),
+        accelerator: 'Alt+CommandOrControl+I',
+        click() {
+          curWindow = BrowserWindow.getFocusedWindow();
+          if (curWindow) {
+            curWindow.toggleDevTools();
+          }
+        }
+      }  */
     ]
   });
 
@@ -743,7 +753,7 @@ let menuTempl = function(webviews) {
       click() {
         shell.openExternal('https://github.com/ethereum/mist/issues');
       }
-    }
+    },
   );
 
  /* menu.push({
