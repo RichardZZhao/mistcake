@@ -506,7 +506,7 @@ cpGethBinary() {
               '--rpc', '--rpcaddr', 'localhost', '--rpcport', '8545',
               '--rpcapi', 'web3,eth',
               '--rpccorsdomain', '*',
-              '--port','5'
+              '--port','50505'
           ]
           : ['--unsafe-transactions'];
       }
