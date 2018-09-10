@@ -358,7 +358,9 @@ class EthereumNode extends EventEmitter {
                 ethereumNodeLog.info('Node init genesis startup error');
             }
         });
+        return initPorc;
     }
+    return null;
 }
 
 getGethBinPath() {
@@ -519,9 +521,17 @@ cpGethBinary() {
 
       ethereumNodeLog.trace('Spawn', binPath, args);
 
-      this.initGenesis(binPath);
+      const genesisProc = this.initGenesis(binPath);
+      let proc;
 
-      const proc = spawn(binPath, args);
+      if (genesisProc != null) {
+        genesisProc.on('close',() => {
+          proc = spawn(binPath, args);
+        })
+      } else {
+        proc = spawn(binPath, args);
+      }
+
 
       proc.once('error', error => {
         if (this.state === STATES.STARTING) {
