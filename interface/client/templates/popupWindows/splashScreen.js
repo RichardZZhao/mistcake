@@ -51,7 +51,7 @@ Template['popupWindows_splashScreen'].onCreated(function() {
           template,
           'text',
           //TAPi18n.__('mist.startScreen.nodeStarting')
-          '猫饼节点启动中...'
+          '猫饼本地节点启动中...'
         );
         showNodeLog = true;
         TemplateVar.set(template, 'logText', null);
@@ -65,7 +65,7 @@ Template['popupWindows_splashScreen'].onCreated(function() {
           template,
           'text',
          // TAPi18n.__('mist.startScreen.nodeStarted')
-         '猫饼节点已启动'
+         '猫饼本地节点已启动'
         );
         break;
 
@@ -74,7 +74,7 @@ Template['popupWindows_splashScreen'].onCreated(function() {
           template,
           'text',
           //TAPi18n.__('mist.startScreen.nodeConnected')
-          '猫饼节点已连接'
+          '猫饼本地节点已连接'
         );
         lastSyncData = {};
         break;
@@ -190,7 +190,7 @@ Template['popupWindows_splashScreen'].onCreated(function() {
         template,
         'text',
         //TAPi18n.__('mist.startScreen.nodeSyncing')
-        '需要同步猫饼链，请等待……'
+        '需要同步猫饼链数据，请等待……'
       );
       TemplateVar.set(template, 'syncStatusMessage', translationString);
     }
@@ -261,7 +261,10 @@ Template['popupWindows_splashScreen'].helpers({
 
       // Translate it
       var translatedMessage = TAPi18n.__(translationString, syncData);
-
+      
+      if (translationString === 'mist.startScreen.nodeSyncConnecting') {
+        translatedMessage = '正在查找其它节点';
+      }
       // Calculates both progress bars
       var stateProgress = null;
       if (0 < lastSyncData._displayKnownStates) {

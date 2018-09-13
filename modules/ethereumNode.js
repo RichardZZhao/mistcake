@@ -1,6 +1,7 @@
 const _ = global._;
 const Q = require('bluebird');
 const spawn = require('child_process').spawn;
+const spawnSync = require('child_process').spawnSync;
 const { dialog } = require('electron');
 const Windows = require('./windows.js');
 const Settings = require('./settings');
@@ -351,16 +352,14 @@ class EthereumNode extends EventEmitter {
         ];
 
         ethereumNodeLog.info('init genesis block');
-        const initProc = spawn(binPath, argsGen);
+        const initProc = spawnSync(binPath, argsGen);
         initProc.once('error', (error) => {
             if (STATES.STARTING === this.state) {
                 this.state = STATES.ERROR;
                 ethereumNodeLog.info('Node init genesis startup error');
             }
         });
-        return initPorc;
     }
-    return null;
 }
 
 getGethBinPath() {
@@ -521,17 +520,8 @@ cpGethBinary() {
 
       ethereumNodeLog.trace('Spawn', binPath, args);
 
-      const genesisProc = this.initGenesis(binPath);
-      let proc;
-
-      if (genesisProc != null) {
-        genesisProc.on('close',() => {
-          proc = spawn(binPath, args);
-        })
-      } else {
-        proc = spawn(binPath, args);
-      }
-
+      this.initGenesis(binPath);
+      const proc = spawn(binPath, args);
 
       proc.once('error', error => {
         if (this.state === STATES.STARTING) {

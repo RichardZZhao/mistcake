@@ -124,7 +124,7 @@
             "nodeBinaryNotFound": "找不到以太坊节点安装文件！<br><small> <a href='https://www.ethereum.org/cli#geth' class='button' target='_blank'> 请事先手动开启一个节点 </a> </small>",
             "nodeSyncing": "需要同步猫饼链，请等待……",
             "nodeSyncInfo": "正在下载第__displayBlock__块，共__highestBlock__。",
-            "nodeSyncConnecting": "正在查找节点……",
+            "nodeSyncConnecting": "正在查找其它节点……",
             "peerSearchTimeout": "跳过节点搜索",
             "stoppingNode": "Stopping Ethereum node...",
             "nodeStarting": "猫饼节点启动中...",
