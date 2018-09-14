@@ -501,7 +501,7 @@ cpGethBinary() {
    //           '--cache', ((process.arch === 'x64') ? '1024' : '512'),
               '--datadir', Settings.getChainPath,
               '--networkid', '13752',
-              '--bootnodes', 'enode://132a2d6118818e84f48461295726353106347e65d6803e0b162ce3b6933401c53309dcce6b16c0df546ca01ac2dcecfe0bcab50963bf3632d9953f32a2c6b254@119.254.211.149:31215',
+              '--bootnodes', 'enode://132a2d6118818e84f48461295726353106347e65d6803e0b162ce3b6933401c53309dcce6b16c0df546ca01ac2dcecfe0bcab50963bf3632d9953f32a2c6b254@119.254.211.149:31215,enode://b512cc4144c9c02d96923ebd045393893b3586d3dfa19b5329713fc8a28d7bf34c4902d0d65f1fc8777f68d6f159edde409ed5cc9d0b24b1a250a468acdfad3e@39.107.106.36:31215',
               '--rpc', '--rpcaddr', 'localhost', '--rpcport', '8545',
               '--rpcapi', 'web3,eth',
               '--rpccorsdomain', '*',
