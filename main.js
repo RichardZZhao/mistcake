@@ -22,6 +22,8 @@ import {
 import { SwarmState } from './modules/core/settings/reducer';
 import swarmNode from './modules/swarmNode.js';
 
+const Sntp = require('sntp');
+
 Q.config({
   cancellation: true
 });
@@ -163,7 +165,7 @@ async function onReady() {
 
   Windows.init();
 
-  enableSwarmProtocol();
+ // enableSwarmProtocol();
 
   if (!Settings.inAutoTestMode) {
     await UpdateChecker.run();
@@ -178,7 +180,8 @@ async function onReady() {
 
   createCoreWindows();
 
-  checkTimeSync();
+  //checkTimeSync();
+  checkTimeAccurate();
 
   splashWindow ? splashWindow.on('ready', kickStart) : kickStart();
 }
@@ -279,6 +282,37 @@ function checkTimeSync() {
   }
 }
 
+function checkTimeAccurate() {
+  var options = {
+    host: 'ntp5.aliyun.com',
+    timeout: 3000                   
+  };
+
+  const exec = async function () {
+ 
+    try {
+        const time = await Sntp.time(options);
+        if (time.t > 3000) {
+          dialog.showMessageBox(
+            {
+              type: 'warning',
+              buttons: ['OK'],
+              message: global.i18n.t('mist.errors.timeSync.title'),
+              detail: `${global.i18n.t(
+                'mist.errors.timeSync.description'
+              )}\n\n${global.i18n.t(`mist.errors.timeSync.${process.platform}`)}`
+            },
+            () => {}
+          );
+        }
+    }
+    catch (err) {
+        console.log('Failed: ' + err.message);
+    }
+  };
+  exec();
+}
+
 async function kickStart() {
   initializeKickStartListeners();
   checkForLegacyChain();
@@ -286,7 +320,7 @@ async function kickStart() {
   await ethereumNode.init();
 
   if (Settings.enableSwarmOnStart) {
-    store.dispatch(toggleSwarm());
+   // store.dispatch(toggleSwarm());
   }
 
   if (!ethereumNode.isIpcConnected) {
@@ -301,6 +335,7 @@ async function kickStart() {
 
   if (splashWindow) {
     splashWindow.show();
+    listen_add_peer();
   }
   if (!Settings.inAutoTestMode) {
     await handleNodeSync();
@@ -308,6 +343,15 @@ async function kickStart() {
 
   await startMainWindow();
 }
+
+function listen_add_peer() {
+  ipcMain.on('add_peer',(e,arg) => {
+    console.log('ipc get node:'+arg);
+    if (ethereumNode.isIpcConnected) {
+       ethereumNode.send('admin_addPeer',[arg]);
+    }
+  });
+} 
 
 function checkForLegacyChain() {
   if ((Settings.loadUserData('daoFork') || '').trim() === 'false') {

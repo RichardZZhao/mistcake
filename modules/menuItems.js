@@ -61,11 +61,50 @@ const restartNode = function(newType, newNetwork, syncMode, webviews) {
     });
 };
 
-const startMining = webviews => {
-  ethereumNode
+const  startMining = async webviews => {
+
+  let peer_count;
+  await ethereumNode
+    .send('net_peerCount')
+    .then(ret => {
+      let count = ret.result;
+      peer_count = count;
+      if (count <= 0) {
+        dialog.showMessageBox(
+          {
+            type: 'warning',
+            buttons: ['OK'],
+            message: global.i18n.t('mist.errors.mine.no_peer')
+          },
+          () => {}
+        );
+      }
+    });
+
+    await ethereumNode.send('eth_accounts').then(ret => {
+      let accounts = ret.result;
+      console.log(ret);
+      if (accounts.length == 0) {
+        dialog.showMessageBox(
+          {
+            type: 'warning',
+            buttons: ['OK'],
+            message: global.i18n.t('mist.errors.mine.no_accounts')
+          },
+          () => {}
+        );
+      }
+    });
+
+    if (peer_count <= 0) {
+      return;
+    }
+
+    ethereumNode
     .send('miner_start', [1])
     .then(ret => {
       log.info('miner_start', ret.result);
+      console.log(ret);
 
       if (ret.result) {
         global.mining = true;
@@ -696,16 +735,17 @@ let menuTempl = function(webviews) {
         label: i18n.t('mist.applicationMenu.window.toFront'),
         role: 'front'
       },
-    /*  {
+      {
         label: i18n.t('mist.applicationMenu.develop.devToolsMistUI'),
         accelerator: 'Alt+CommandOrControl+I',
+        visible: true,
         click() {
           curWindow = BrowserWindow.getFocusedWindow();
           if (curWindow) {
             curWindow.toggleDevTools();
           }
         }
-      }  */
+      }  
     ]
   });
 

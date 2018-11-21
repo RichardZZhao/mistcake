@@ -14,6 +14,8 @@ const version = require('../package.json').version;
 const type = options.type;
 const applicationName = options.wallet ? 'Ethereum Wallet' : 'MistCake';
 
+const rename = require('gulp-rename');
+
 gulp.task('clean-dist', cb => {
   return del([`./dist_${type}`, './meteor-dapp-wallet'], cb);
 });
@@ -91,26 +93,11 @@ gulp.task('bundling-interface', cb => {
     );
   };
     // we will force to use local meteor-dapp-wallet and local block chain
-    if (true) {
-        if (true) {
-            console.log('Use local wallet at ../meteor-dapp-wallet/app');
-            console.log('Using local blockchain explorer at ../explorer/app');
-            bundle(`&& cd ../../meteor-dapp-wallet/app \
-                && cp -R ../../meteor-dapp-wallet/build ../../mist/dist_${type}/app/interface/wallet\
-                && cp -R ../../explorer/app ../../mist/dist_${type}/app/interface/explorer`);
-
-        } else {
-            console.log(`Pulling https://github.com/ethereum/meteor-dapp-wallet/tree/${options.walletSource} "${options.walletSource}" branch...`);
-            bundle(`&& cd ../dist_${type} \
-                && git clone --depth 1 https://github.com/ethereum/meteor-dapp-wallet.git \
-                && cd meteor-dapp-wallet/app \
-                && meteor-build-client ../../app/interface/wallet -p "" \
-                && cd ../../ \
-                && rm -rf meteor-dapp-wallet`);
-    }
-  } else {
-    bundle();
-  }
+    console.log('Use local wallet at ../meteor-dapp-wallet/app');
+    console.log('Using local blockchain explorer at ../explorer/app');
+    bundle(`&& cd ../../meteor-dapp-wallet/app \
+        && cp -R ../../meteor-dapp-wallet/build ../../mist/dist_${type}/app/interface/wallet\
+        && cp -R ../../explorer/app ../../mist/dist_${type}/app/interface/explorer`);
 });
 
 gulp.task('copy-i18n', () => {
@@ -119,6 +106,15 @@ gulp.task('copy-i18n', () => {
       base: './'
     })
     .pipe(gulp.dest(`./dist_${type}/app`));
+});
+
+gulp.task('copy-geth', () => {
+  if (options.mac) {
+    return gulp.src(['./geth_binary/geth-darwin-amd64-1.8.2']).pipe(rename('geth')).pipe(gulp.dest(`./dist_${type}/app/`));
+  } else if (options.win) {
+    return gulp.src(['./geth_binary/geth-windows-386-1.8.2.exe']).pipe(rename('geth32.exe')).pipe(gulp.dest(`./dist_${type}/app/`)).
+    pipe(gulp.src(['./geth_binary/geth-windows-amd64-1.8.2.exe'])).pipe(rename('geth64.exe')).pipe(gulp.dest(`./dist_${type}/app/`));
+  }
 });
 
 gulp.task('build-dist', cb => {
@@ -131,6 +127,9 @@ gulp.task('build-dist', cb => {
     build: {
       appId: `org.ethereum.${type}`,
       asar: true,
+      asarUnpack: [
+        "./geth*"
+      ],
       directories: {
         buildResources: '../build',
         output: '../dist'
@@ -190,9 +189,7 @@ gulp.task('build-dist', cb => {
                 path.join(__dirname, '..', 'LICENSE'),
                 path.join(__dirname, '..', 'README.md'),
                 path.join(__dirname, '..', 'AUTHORS'),
-                path.join(__dirname, '..', 'genesis.json'),
-                path.join(__dirname, '..', 'geth32.exe'),
-                path.join(__dirname, '..', 'geth64.exe')
+                path.join(__dirname, '..', 'genesis.json')
               ],
               params.appOutDir
             );

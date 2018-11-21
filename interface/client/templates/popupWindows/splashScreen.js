@@ -1,3 +1,4 @@
+import { HTTP } from 'meteor/http'
 /**
 Template Controllers
 
@@ -19,9 +20,54 @@ Contains the last state of the data
 var lastSyncData = {},
   showNodeLog = true;
 
+
 Template['popupWindows_splashScreen'].onCreated(function() {
   var template = this;
   template._intervalId = null;
+  
+  function getRandom(arr, n) {
+    var result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+        throw new RangeError("getRandom: more elements taken than available");
+    while (n--) {
+        var x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len in taken ? taken[len] : len;
+    }
+    return result;
+  }
+
+
+
+  setTimeout(function() {
+    //if there is no peers at certain time, we will connect to active node we knew
+    //we did this because the environment is sophisticated that many people cannot connect to any nodes
+    var peerCount = web3.net.peerCount;
+    if (peerCount < 1) {
+      const active_nodes_url = "https://raw.githubusercontent.com/catcakechain/mistcake/develop/active_nodes.json";
+      HTTP.get(active_nodes_url,{},function(error,result) {
+          if (!error) {
+            let config = JSON.parse(result.content);
+            let connect_num = config.connect_num;
+            // when connect_num > 10, do not connect to active_nodes
+            if (connect_num > 10) {
+              return;
+            }
+            let active_nodes = config.active_nodes;
+            if (active_nodes.size > connect_num) {
+              active_nodes = getRandom(active_nodes,connect_num);
+            }
+            for (var i = 0; i < active_nodes.length; i++) {
+              let node = active_nodes[i];
+              ipc.send('add_peer',node);
+            }
+          }
+      });
+    }
+
+  },20000);
 
   ipc.on('uiAction_nodeLogText', function(e, text, data) {
     if (showNodeLog && data) {

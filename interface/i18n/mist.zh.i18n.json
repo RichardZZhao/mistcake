@@ -70,8 +70,8 @@
             "nodeConnect": "无法连接节点？查看日志获取更多信息：",
             "nodeStartup": "该节点可能无法被启动，你是否正在运行一个节点？它是否正在更新数据库？",
             "timeSync": {
-                "title": "你的计算机时间同步不准确！",
-                "description": "为了和以太坊网络保持同步，你的计算机时间和服务器时间需要保持同步。",
+                "title": "你的计算机时间不准确！",
+                "description": "为了和猫饼链保持同步，你的计算机时间和服务器时间需要保持同步。",
                 "win32": "从系统选项中打开网络时间设置并勾选。详细信息参考：http://www.guidingtech.com/3119/windows-clock-sync/",
                 "linux": "为开启时间同步服务器，请通过\"apt-get install ntp\"安装\"ntp\"。",
                 "darwin": "为开启时间同步，打开时间选项并勾选\"Set the time and date automatically\"."
@@ -83,6 +83,10 @@
             "legacyChain": {
                 "title": "Legacy chain detected",
                 "description": "Your node is currently on the unsupported Ethereum Classic chain. To use this chain use tools provided by the ethereum classic project at\nhttps://ethereumclassic.github.io.\n\nTo revert to the main ethereum chain follow the tutorial here:\nhttps://github.com/ethereum/mist/releases/0.8.2"
+            },
+            "mine": {
+                "no_peer": "只有连接到接点才能开始挖矿",
+                "no_accounts":"挖矿前必须先创建账户"
             }
         },
         "rightClick": {

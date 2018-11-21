@@ -202,7 +202,7 @@ class Settings {
       } else if (process.platform === 'freebsd' ||
           process.platform === 'linux' ||
           process.platform === 'sunos') {
-          chainPath += '/.catcake';
+          chainPath += '/.mistcake';
       } else if (process.platform === 'win32') {
           chainPath += '\\AppData\\Roaming\\MistCake';
       }
@@ -222,6 +222,39 @@ class Settings {
       }
       return genesisPath;
 
+  }
+
+  get getGethBinary() {
+    if (process.platform === 'darwin') {
+      if (!this.inProductionMode) {
+        return `${__dirname}/../geth_binary/geth-darwin-amd64-1.8.2`;
+      }
+    } else if (process.platform === 'freebsd' ||
+        process.platform === 'linux' ||
+        process.platform === 'sunos') {
+        
+    } else if (process.platform === 'win32') {
+      let execPath = path.dirname (app.getPath ('exe'));
+      let system = this.getSystem;
+      if (system === 'win32') {
+        return execPath + '/resources/app.asar.unpacked/geth32.exe';
+      } else if (system === 'win64') {
+        return execPath + '/resources/app.asar.unpacked/geth64.exe';
+      }
+    }
+  }
+
+  get getGenesis() {
+    if (process.platform === 'darwin') {
+      if (!this.inProductionMode) {
+        return `${__dirname}/../genesis.json`;
+      }
+    } else if (process.platform === 'freebsd' ||
+        process.platform === 'linux' ||
+        process.platform === 'sunos') {
+        
+    } else if (process.platform === 'win32') {
+    }
   }
 
   // like process.platform but will distinguish win32 or win64

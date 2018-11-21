@@ -78,6 +78,7 @@ const tasks = [
   'switch-production',
   'bundling-interface',
   'copy-i18n',
+  'copy-geth',
   'build-dist',
   'release-dist',
   'build-nsis'

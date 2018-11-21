@@ -337,50 +337,20 @@ class EthereumNode extends EventEmitter {
   initGenesis(binPath) {
     const chainPath = Settings.getChainPath+"//geth";
     if (!fs.existsSync(chainPath)) {
-        /**
-         * file not exist
-         */
-        let execPath = path.dirname (app.getPath ('exe'));
 
-        // read and write file to genesis.json
-        fs.copySync(execPath +'/genesis.json',Settings.getGenesisPath);
-        // const genesisCont = fs.readFileSync(execPath +'/genesis.json');
-        // fs.writeFileSync(Settings.getGenesisPath, genesisCont);
         const argsGen = [
-            'init', Settings.getGenesisPath,
+            'init', Settings.getGenesis,
             '--datadir', Settings.getChainPath
         ];
-
         ethereumNodeLog.info('init genesis block');
         const initProc = spawnSync(binPath, argsGen);
-        initProc.once('error', (error) => {
+ /*       initProc.once('error', (error) => {
             if (STATES.STARTING === this.state) {
                 this.state = STATES.ERROR;
                 ethereumNodeLog.info('Node init genesis startup error');
             }
-        });
+        }); */
     }
-}
-
-getGethBinPath() {
-  return path.join(Settings.userDataPath, 'geth.exe');
-}
-
-cpGethBinary() {
-  let gethPath = this.getGethBinPath();
-  if (fs.existsSync(gethPath)) {
-    return;
-  } else {
-    let execPath = path.dirname (app.getPath ('exe'));
-    let system = Settings.getSystem;
-    if (system === 'win32') {
-      fs.copySync(execPath + '/geth32.exe', gethPath);
-      //fs.createReadStream(execPath + '/geth32.exe').pipe(fs.createWriteStream(gethPath));
-    } else if (system === 'win64') {
-      fs.copySync(execPath + '/geth64.exe',gethPath);
-      //fs.createReadStream(execPath + '/geth64.exe').pipe(fs.createWriteStream(gethPath));
-    }
-  }
 }
 
 
@@ -392,8 +362,7 @@ cpGethBinary() {
     this._syncMode = syncMode;
 
     //const client = ClientBinaryManager.getClient(nodeType);
-    let binPath = this.getGethBinPath();
-    this.cpGethBinary();
+    let binPath = Settings.getGethBinary;
 /*
     if (client) {
       binPath = client.binPath;
@@ -503,7 +472,7 @@ cpGethBinary() {
               '--networkid', '13752',
               '--bootnodes', 'enode://132a2d6118818e84f48461295726353106347e65d6803e0b162ce3b6933401c53309dcce6b16c0df546ca01ac2dcecfe0bcab50963bf3632d9953f32a2c6b254@119.254.211.149:31215,enode://b512cc4144c9c02d96923ebd045393893b3586d3dfa19b5329713fc8a28d7bf34c4902d0d65f1fc8777f68d6f159edde409ed5cc9d0b24b1a250a468acdfad3e@39.107.106.36:31215',
               '--rpc', '--rpcaddr', 'localhost', '--rpcport', '8545',
-              '--rpcapi', 'web3,eth',
+              '--rpcapi', 'admin,admin_,web3,eth',
               '--rpccorsdomain', '*',
               '--port','50505'
           ]
