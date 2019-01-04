@@ -62,6 +62,7 @@ Template['popupWindows_splashScreen'].onCreated(function() {
             for (var i = 0; i < active_nodes.length; i++) {
               let node = active_nodes[i];
               ipc.send('add_peer',node);
+      
             }
           }
       });

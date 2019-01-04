@@ -339,11 +339,12 @@ class EthereumNode extends EventEmitter {
     if (!fs.existsSync(chainPath)) {
 
         const argsGen = [
-            'init', Settings.getGenesis,
+            'init', Settings.getGenesisPath,
             '--datadir', Settings.getChainPath
         ];
         ethereumNodeLog.info('init genesis block');
         const initProc = spawnSync(binPath, argsGen);
+        ethereumNodeLog.info(initProc);
  /*       initProc.once('error', (error) => {
             if (STATES.STARTING === this.state) {
                 this.state = STATES.ERROR;

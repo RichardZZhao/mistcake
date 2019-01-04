@@ -79,6 +79,7 @@ const tasks = [
   'bundling-interface',
   'copy-i18n',
   'copy-geth',
+  'copy-genesis',
   'build-dist',
   'release-dist',
   'build-nsis'

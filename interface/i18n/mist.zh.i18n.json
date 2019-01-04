@@ -31,8 +31,10 @@
                 "importPresale": "导入账户",
                 "newAccount": "新建账户",
                 "backup": "备份",
+                "restore": "恢复",
                 "backupKeyStore": "账户",
-                "backupMist": "应用程序数据"
+                "backupMist": "应用程序数据",
+                "importError":"导入文件格式不正确"
             },
             "develop": {
                 "uploadToSwarm": "上传到Swarm",
@@ -151,6 +153,12 @@
             }
         },
         "popupWindows": {
+            "button":{
+                "ok":"确定",
+                "cancel":"取消",
+                "relaunch":"重启应用",
+                "importDone":"数据已经恢复，部分数据将在重启应用后显示"
+            },
             "requestAccount": {
                 "title": "创建账户",
                 "enterPassword": "输入密码",

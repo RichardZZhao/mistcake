@@ -4,7 +4,8 @@ const {
   ipcMain: ipc,
   Menu,
   shell,
-  dialog
+  dialog,
+  webContents
 } = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -15,6 +16,7 @@ const swarmLog = require('./utils/logger').create('swarm');
 const updateChecker = require('./updateChecker');
 const ethereumNode = require('./ethereumNode.js');
 const ClientBinaryManager = require('./clientBinaryManager');
+const Backup = require('./backup');
 
 import {
   setLanguage,
@@ -292,45 +294,24 @@ let menuTempl = function(webviews) {
       {
         label: i18n.t('mist.applicationMenu.file.backup'),
         submenu: [
+
           {
-            label: i18n.t('mist.applicationMenu.file.backupKeyStore'),
+            label: i18n.t('mist.applicationMenu.file.backup'),
             click() {
-              let userPath = Settings.userHomePath;
-
-              // eth
-              if (ethereumNode.isEth) {
-                if (process.platform === 'win32') {
-                  userPath = `${Settings.appDataPath}\\Web3\\keys`;
-                } else {
-                  userPath += '/.web3/keys';
-                }
-
-                // geth
-              } else {
-                if (process.platform === 'darwin') {
-                  userPath += '/Library/MistCake/keystore';
-                }
-
-                if (
-                  process.platform === 'freebsd' ||
-                  process.platform === 'linux' ||
-                  process.platform === 'sunos'
-                ) {
-                  userPath += '/.catecake/keystore';
-                }
-
-                if (process.platform === 'win32') {
-                  userPath = `${Settings.appDataPath}\\MistCake\\keystore`;
-                }
-              }
-
-              shell.showItemInFolder(userPath);
+              dialog.showSaveDialog(null,{'title':'Please choose location to save'},(path) => {
+                  Backup.backupData(path);
+              });
             }
           },
           {
-            label: i18n.t('mist.applicationMenu.file.backupMist'),
+            label: i18n.t('mist.applicationMenu.file.restore'),
             click() {
-              shell.openItem(Settings.userDataPath);
+              let options = {
+                properties:["openFile"]
+              };
+              let path = dialog.showOpenDialog(null,options);
+              if (path)
+                Backup.importData(path[0]);
             }
           }
         ]

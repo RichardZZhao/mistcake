@@ -47,7 +47,6 @@ mistInit = function() {
             { _id: 'wallet' },
             {
                 $set: {
-                    _id: 'wallet',
                     url: 'file://' + dirname + '/interface/wallet/index.html',
                     redirect: 'file://' + dirname + '/interface/wallet/index.html',
                     position: 1,

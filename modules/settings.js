@@ -210,24 +210,27 @@ class Settings {
   }
 
   get getGenesisPath() {
-      let genesisPath = os.tmpdir();
-      if (process.platform === 'darwin') {
-          genesisPath += '/genesis.json';
-      } else if (process.platform === 'freebsd' ||
-          process.platform === 'linux' ||
-          process.platform === 'sunos') {
-          genesisPath += '/genesis.json';
-      } else if (process.platform === 'win32') {
-          genesisPath += '\\genesis.json';
-      }
-      return genesisPath;
-
+    if (process.platform === 'darwin') {
+        if (!this.inProductionMode) {
+          return `${__dirname}/../genesis.json`;
+        }
+        return path.join(app.getAppPath(), 'genesis.json').replace('app.asar', 'app.asar.unpacked');
+    } else if (process.platform === 'freebsd' ||
+        process.platform === 'linux' ||
+        process.platform === 'sunos') {
+        
+    } else if (process.platform === 'win32') {
+      let execPath = path.dirname (app.getPath ('exe'));
+      return execPath + '/resources/app.asar.unpacked/genesis.json';
+    }
   }
 
   get getGethBinary() {
     if (process.platform === 'darwin') {
       if (!this.inProductionMode) {
         return `${__dirname}/../geth_binary/geth-darwin-amd64-1.8.2`;
+      } else {
+        return path.join(app.getAppPath(), 'geth').replace('app.asar', 'app.asar.unpacked')
       }
     } else if (process.platform === 'freebsd' ||
         process.platform === 'linux' ||

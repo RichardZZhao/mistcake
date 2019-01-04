@@ -104,6 +104,11 @@ ipc.on('backendAction_windowMessageToOwner', (e, error, value) => {
       );
     }
   }
+
+  const webs = webContents.getAllWebContents();
+  for (let i = 0; i < webs.length; i++) {
+    webs[i].send('account_created',value);
+  }
 });
 
 ipc.on('backendAction_getLanguage', e => {

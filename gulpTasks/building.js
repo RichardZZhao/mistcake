@@ -117,6 +117,10 @@ gulp.task('copy-geth', () => {
   }
 });
 
+gulp.task('copy-genesis', () => {
+  return gulp.src(['./genesis.json']).pipe(gulp.dest(`./dist_${type}/app/`));
+});
+
 gulp.task('build-dist', cb => {
   const appPackageJson = _.extend({}, require('../package.json'), {
     // eslint-disable-line global-require
@@ -128,7 +132,8 @@ gulp.task('build-dist', cb => {
       appId: `org.ethereum.${type}`,
       asar: true,
       asarUnpack: [
-        "./geth*"
+        "./geth*",
+        "./genesis.json"
       ],
       directories: {
         buildResources: '../build',

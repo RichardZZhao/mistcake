@@ -164,3 +164,7 @@ ipcRenderer.sendToHost('setWebviewId');
 
 // destroy the old socket
 ipcRenderer.send('ipcProvider-destroy');
+
+ipcRenderer.on('account_created',(e,v) => {
+  webFrame.executeJavaScript('account_created("'+v+'")');
+});

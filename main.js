@@ -346,7 +346,7 @@ async function kickStart() {
 
 function listen_add_peer() {
   ipcMain.on('add_peer',(e,arg) => {
-    console.log('ipc get node:'+arg);
+    log.info('ipc get node:'+arg);
     if (ethereumNode.isIpcConnected) {
        ethereumNode.send('admin_addPeer',[arg]);
     }
